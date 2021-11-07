@@ -39,8 +39,8 @@ namespace StudentHub_API
             services.AddDbContext<AppDbContext>(options =>
             {
 
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
-                //options.UseMySQL(Configuration.GetConnectionString("SmartApiMySQL"));
+                //options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseMySQL(Configuration.GetConnectionString("SmartApiMySQL"));
 
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
