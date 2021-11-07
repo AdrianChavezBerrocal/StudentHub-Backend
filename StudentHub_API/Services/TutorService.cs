@@ -72,10 +72,11 @@ namespace StudentHub_API.Services
                 return new TutorResponse($"An error ocurred while saving the tutor: {e.Message}");
             }
         }
-        public async Task<TutorResponse> SaveAsync(int courseId, Tutor tutor)
+        public async Task<TutorResponse> SaveAsync(int courseId,int userId, Tutor tutor)
         {
             try
             {
+                tutor.UserId = userId;
                 tutor.CourseId = courseId;
                 await _tutorRepository.AddAsync(tutor);
                 await _unitOfWork.CompleteAsync();

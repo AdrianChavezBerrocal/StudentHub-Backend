@@ -12,14 +12,17 @@ namespace StudentHub_API.Domain.Models
         public double PricePerHour { get; set; }
         public string Url { get; set; }
         
-        //relación con Schedule, Course
-        //// relationships
+        //relationships
+        //Course
         public int CourseId { get; set; }
         public Course Course { get; set; }
-
+        //Schedules
         public List<Schedule> Schedules { get; set; }
-        //public List<Session> Sessions { get; set; }
-        //public List<TutorReservation> TutorReservations { get; set; }
-        //public List<SessionMaterial> SessionMaterials { get; set; }
+        //User
+        public int UserId { get; set; }
+        public User User { get; set; }
+        //Sessions
+        public List<Session> Sessions { get; set; }
+
     }
 }

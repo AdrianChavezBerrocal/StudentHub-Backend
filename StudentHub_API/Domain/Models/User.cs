@@ -12,6 +12,10 @@ namespace StudentHub_API.Domain.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Accepted { get; set; }
-        //Relación con Career
+        //relationships
+        //Tutor
+        public Tutor Tutor { get; set; }
+        //Document
+        public List<Document> Documents { get; set; }
     }
 }

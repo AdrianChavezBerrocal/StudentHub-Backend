@@ -29,8 +29,12 @@ namespace StudentHub_API.Domain.Persistence.Contexts
             builder.Entity<Career>().HasKey(career => career.Id); //Primary Key
             builder.Entity<Career>().Property(career => career.Id).IsRequired().ValueGeneratedOnAdd(); //Auto Generate a Primary Key
             builder.Entity<Career>().Property(career => career.Name).IsRequired().HasMaxLength(50);
+            //Career One to many with Document
+            builder.Entity<Career>()
+               .HasMany(career => career.Documents)
+               .WithOne(document => document.Career)
+               .HasForeignKey(document => document.CareerId);
 
-            
 
             //Course
             builder.Entity<Course>().ToTable("Courses");
@@ -43,6 +47,12 @@ namespace StudentHub_API.Domain.Persistence.Contexts
                .HasMany(course => course.Tutors)
                .WithOne(tutor => tutor.Course)
                .HasForeignKey(tutor => tutor.CourseId);
+            //Course One to many with Document
+            builder.Entity<Course>()
+               .HasMany(course => course.Documents)
+               .WithOne(document => document.Course)
+               .HasForeignKey(document => document.CourseId);
+
 
             //Document
             builder.Entity<Document>().ToTable("Documents");
@@ -50,6 +60,8 @@ namespace StudentHub_API.Domain.Persistence.Contexts
             builder.Entity<Document>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Document>().Property(p => p.Name).IsRequired().HasMaxLength(40);
             builder.Entity<Document>().Property(p => p.Description).IsRequired().HasMaxLength(120);
+            
+
 
             //Schedule
             builder.Entity<Schedule>().ToTable("Schedules");
@@ -78,6 +90,16 @@ namespace StudentHub_API.Domain.Persistence.Contexts
             builder.Entity<User>().Property(p => p.Password).IsRequired();
             builder.Entity<User>().Property(p => p.Accepted);
 
+            //User One to One with tutor
+            builder.Entity<User>()
+                .HasOne(user => user.Tutor)
+                .WithOne(tutor => tutor.User)
+                .HasForeignKey<Tutor>(tutor => tutor.UserId);
+            //User One to many with Document
+            builder.Entity<User>()
+               .HasMany(user => user.Documents)
+               .WithOne(document => document.User)
+               .HasForeignKey(document => document.UserId);
 
             //Tutor
             builder.Entity<Tutor>().ToTable("Tutors");
@@ -92,6 +114,12 @@ namespace StudentHub_API.Domain.Persistence.Contexts
                .HasMany(tutor => tutor.Schedules)
                .WithOne(schedule => schedule.Tutor)
                .HasForeignKey(schedule => schedule.TutorId);
+
+            //Tutor One to many with Session
+            builder.Entity<Tutor>()
+               .HasMany(tutor => tutor.Sessions)
+               .WithOne(session => session.Tutor)
+               .HasForeignKey(session => session.TutorId);
 
         }
     }

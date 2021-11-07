@@ -9,7 +9,10 @@ namespace StudentHub_API.Domain.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        //Relationsips
         //Relación con Tutor
         public List<Tutor> Tutors { get; set; }
+        //Document
+        public List<Document> Documents { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace StudentHub_API.Domain.Services
         Task<IEnumerable<Tutor>> ListAsync();
         Task<TutorResponse> GetByIdAsync(int id);
         Task<TutorResponse> SaveAsync(Tutor tutor);
-        Task<TutorResponse> SaveAsync(int courseId, Tutor tutor);
+        Task<TutorResponse> SaveAsync(int courseId,int userId, Tutor tutor);
         Task<IEnumerable<Tutor>> FindByCourseId(int courseId);
         Task<TutorResponse> UpdateAsync(int id, Tutor tutor);
         Task<TutorResponse> DeleteAsync(int id);

@@ -18,7 +18,28 @@ namespace StudentHub_API.Persistence.Repositories
         {
             await _context.Documents.AddAsync(document);
         }
-
+        public async Task<IEnumerable<Document>> ListByCourseIdAsync(int courseyId)
+        {
+            return await _context.Documents
+                .Where(d => d.CourseId == courseyId)
+                .Include(d => d.Course)
+                .Include(d => d.Career)
+                .Include(d => d.User)
+                    .ThenInclude(d => d.Tutor)
+                        .ThenInclude(d => d.Course)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Document>> ListByCareerIdAsync(int careerId)
+        {
+            return await _context.Documents
+                .Where(d => d.CareerId == careerId)
+                .Include(d => d.Career)
+                .Include(d => d.Course)
+                .Include(d => d.User)
+                    .ThenInclude(d => d.Tutor)
+                        .ThenInclude(d => d.Course)
+                .ToListAsync();
+        }
         public async Task<Document> FindById(int id)
         {
             return await _context.Documents.FindAsync(id);

@@ -43,7 +43,14 @@ namespace StudentHub_API.Services
         {
             return await _documentRepository.ListAsync();
         }
-
+        public async Task<IEnumerable<Document>> ListByCourseIdAsync(int courseId)
+        {
+            return await _documentRepository.ListByCourseIdAsync(courseId);
+        }
+        public async Task<IEnumerable<Document>> ListByCareerIdAsync(int careerId)
+        {
+            return await _documentRepository.ListByCareerIdAsync(careerId);
+        }
         public async Task<DocumentResponse> GetByIdAsync(int id)
         {
             var existingDocument = await _documentRepository.FindById(id);
@@ -53,10 +60,13 @@ namespace StudentHub_API.Services
             return new DocumentResponse(existingDocument);
         }
 
-        public async Task<DocumentResponse> SaveAsync(Document document)
+        public async Task<DocumentResponse> SaveAsync(int userId, int careerId, int courseId, Document document)
         {
             try
             {
+                document.UserId = userId;
+                document.CareerId = careerId;
+                document.CourseId = courseId;
                 await _documentRepository.AddAsync(document);
                 await _unitOfWork.CompleteAsync();
                 return new DocumentResponse(document);

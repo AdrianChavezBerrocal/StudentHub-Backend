@@ -10,6 +10,16 @@ namespace StudentHub_API.Domain.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        //debe tener una relación con Career , Course
+
+        //Relationships
+        //Carrer
+        public int CareerId { get; set; }
+        public Career Career { get; set; }
+        //Course
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
+        //User
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

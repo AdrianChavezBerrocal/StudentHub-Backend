@@ -9,7 +9,9 @@ namespace StudentHub_API.Domain.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //relación con User y tutor
 
+        //relación con User y tutor
+        public int TutorId { get; set; }
+        public Tutor Tutor { get; set; }
     }
 }
