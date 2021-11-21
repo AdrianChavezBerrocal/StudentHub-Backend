@@ -26,15 +26,15 @@ namespace StudentHub_API.Controllers
         }
 
         [SwaggerOperation(Tags = new[] { "schedules" })]
-        [HttpPost]
+        [HttpPost("tutors/{tutorId}")]
         [ProducesResponseType(typeof(ScheduleResource), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 404)]
-        public async Task<IActionResult> PostAsync([FromBody] SaveScheduleResource resource)
+        public async Task<IActionResult> PostAsync([FromBody] SaveScheduleResource resource, int tutorId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
             var schedule = _mapper.Map<SaveScheduleResource, Schedule>(resource);
-            var result = await _scheduleService.SaveAsync(schedule);
+            var result = await _scheduleService.SaveAsync(schedule, tutorId);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -75,7 +75,15 @@ namespace StudentHub_API.Controllers
 
             return Ok(scheduleResource);
         }
+        [HttpGet("tutors/{tutorId}/schedules")]
+        [ProducesResponseType(typeof(IEnumerable<ScheduleResource>), 200)]
+        public async Task<IEnumerable<ScheduleResource>> GetAllByTutorIdAsync(int tutorId)
+        {
+            var tutors = await _scheduleService.ListByTutorIdAsync(tutorId);
+            var resources = _mapper.Map<IEnumerable<Schedule>, IEnumerable<ScheduleResource>>(tutors);
 
+            return resources;
+        }
         [SwaggerOperation(Tags = new[] { "schedules" })]
         [HttpDelete("{scheduleId}")]
         [ProducesResponseType(typeof(ScheduleResource), 200)]

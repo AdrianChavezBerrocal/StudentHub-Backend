@@ -100,6 +100,11 @@ namespace StudentHub_API.Domain.Persistence.Contexts
                .HasMany(user => user.Documents)
                .WithOne(document => document.User)
                .HasForeignKey(document => document.UserId);
+            //User One to many with Session
+            builder.Entity<User>()
+               .HasMany(user => user.Sessions)
+               .WithOne(session => session.User)
+               .HasForeignKey(session => session.UserId);
 
             //Tutor
             builder.Entity<Tutor>().ToTable("Tutors");

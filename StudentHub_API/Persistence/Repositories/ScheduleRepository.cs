@@ -28,7 +28,12 @@ namespace StudentHub_API.Persistence.Repositories
         {
             return await _context.Schedules.ToListAsync();
         }
-
+        public async Task<IEnumerable<Schedule>> ListByTutorIdAsync(int tutorId)
+        {
+            return await _context.Schedules
+                .Where(s => s.TutorId == tutorId)
+                .ToListAsync();
+        }
         public void Remove(Schedule schedule)
         {
             _context.Schedules.Remove(schedule);

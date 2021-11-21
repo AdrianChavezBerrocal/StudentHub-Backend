@@ -23,7 +23,14 @@ namespace StudentHub_API.Persistence.Repositories
         {
             return await _context.Sessions.FindAsync(id);
         }
-
+        public async Task<IEnumerable<Session>> ListByUserIdAsync(int userId)
+        {
+            return await _context.Sessions
+                .Where(s => s.UserId == userId)
+                .Include(s => s.Tutor)
+                    .ThenInclude(s => s.Course)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<Session>> ListAsync()
         {
             return await _context.Sessions.ToListAsync();

@@ -39,7 +39,7 @@ namespace StudentHub_API.Services
                 return new SessionResponse($"An error ocurred while deleting the session: {ex.Message}");
             }
         }
-
+        
         public async Task<SessionResponse> GetByIdAsync(int id)
         {
             var existingSession = await _sessionRepository.FindById(id);
@@ -53,11 +53,16 @@ namespace StudentHub_API.Services
         {
             return await _sessionRepository.ListAsync();
         }
-
-        public async Task<SessionResponse> SaveAsync(Session session)
+        public async Task<IEnumerable<Session>> ListByUserIdAsync(int userId)
+        {
+            return await _sessionRepository.ListByUserIdAsync(userId);
+        }
+        public async Task<SessionResponse> SaveAsync(Session session, int tutorId, int userId)
         {
             try
             {
+                session.TutorId = tutorId;
+                session.UserId = userId;
                 await _sessionRepository.AddAsync(session);
                 await _unitOfWork.CompleteAsync();
                 return new SessionResponse(session);

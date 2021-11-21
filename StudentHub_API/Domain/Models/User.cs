@@ -17,5 +17,7 @@ namespace StudentHub_API.Domain.Models
         public Tutor Tutor { get; set; }
         //Document
         public List<Document> Documents { get; set; }
+        //Session
+        public List<Session> Sessions { get; set; }
     }
 }

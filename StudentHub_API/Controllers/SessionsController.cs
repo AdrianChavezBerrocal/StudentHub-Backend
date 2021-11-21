@@ -26,15 +26,15 @@ namespace StudentHub_API.Controllers
         }
 
         [SwaggerOperation(Tags = new[] { "sessions" })]
-        [HttpPost]
+        [HttpPost("tutors/{tutorId}/users/{userId}")]
         [ProducesResponseType(typeof(SessionResource), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 404)]
-        public async Task<IActionResult> PostAsync([FromBody] SaveSessionResource resource)
+        public async Task<IActionResult> PostAsync([FromBody] SaveSessionResource resource, int tutorId,int userId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
             var session = _mapper.Map<SaveSessionResource, Session>(resource);
-            var result = await _sessionService.SaveAsync(session);
+            var result = await _sessionService.SaveAsync(session, tutorId,userId);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -75,7 +75,15 @@ namespace StudentHub_API.Controllers
 
             return Ok(sessionResource);
         }
+        [HttpGet("users/{userId}/sessions")]
+        [ProducesResponseType(typeof(IEnumerable<SessionResource>), 200)]
+        public async Task<IEnumerable<SessionResource>> GetAllByUserIdAsync(int userId)
+        {
+            var users = await _sessionService.ListByUserIdAsync(userId);
+            var resources = _mapper.Map<IEnumerable<Session>, IEnumerable<SessionResource>>(users);
 
+            return resources;
+        }
         [SwaggerOperation(Tags = new[] { "sessions" })]
         [HttpDelete("{sessionId}")]
         [ProducesResponseType(typeof(SessionResource), 200)]

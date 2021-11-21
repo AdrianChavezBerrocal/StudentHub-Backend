@@ -13,5 +13,7 @@ namespace StudentHub_API.Domain.Models
         //relación con User y tutor
         public int TutorId { get; set; }
         public Tutor Tutor { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

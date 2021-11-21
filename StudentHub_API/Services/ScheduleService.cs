@@ -53,11 +53,15 @@ namespace StudentHub_API.Services
         {
             return await _scheduleRepository.ListAsync();
         }
-
-        public async Task<ScheduleResponse> SaveAsync(Schedule schedule)
+        public async Task<IEnumerable<Schedule>> ListByTutorIdAsync(int tutorId)
+        {
+            return await _scheduleRepository.ListByTutorIdAsync(tutorId);
+        }
+        public async Task<ScheduleResponse> SaveAsync(Schedule schedule,int tutorId)
         {
             try
             {
+                schedule.TutorId = tutorId;
                 await _scheduleRepository.AddAsync(schedule);
                 await _unitOfWork.CompleteAsync();
                 return new ScheduleResponse(schedule);
